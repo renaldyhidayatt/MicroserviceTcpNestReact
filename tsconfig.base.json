@@ -14,7 +14,12 @@
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
-    "paths": {}
+    "paths": {
+      "@myexperiment/auth-guard": ["libs/auth-guard/src/index.ts"],
+      "@myexperiment/core": ["libs/core/src/index.ts"],
+      "@myexperiment/domain": ["libs/domain/src/index.ts"],
+      "@myexperiment/infrastructure": ["libs/infrastructure/src/index.ts"]
+    }
   },
   "exclude": ["node_modules", "tmp"]
 }
