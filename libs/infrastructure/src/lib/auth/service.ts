@@ -7,6 +7,7 @@ import {
   AuthResponse,
   LoginDto,
   RegisterDto,
+  User,
 } from '@myexperiment/domain';
 
 import { PasswordHash } from '../utils';

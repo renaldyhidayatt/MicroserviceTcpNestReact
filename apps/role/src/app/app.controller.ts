@@ -6,6 +6,7 @@ import {
   Param,
   Post,
   Put,
+  UseGuards,
 } from '@nestjs/common';
 
 import { AppService } from './app.service';
@@ -14,33 +15,37 @@ import {
   CreateRoleDto,
   UpdateRoleDto,
 } from '@myexperiment/domain';
+import { JwtGuard } from '@myexperiment/auth-guard';
+import { RoleService } from '@myexperiment/infrastructure';
 
 @Controller()
 export class AppController {
-  constructor(private readonly appService: AppService) {}
+  constructor(private readonly roleService: RoleService) {}
 
   @Post('/create')
+  @UseGuards(JwtGuard)
   create(@Body() createRole: CreateRoleDto): Promise<ApiResponse> {
-    return this.appService.createRole(createRole);
+    return this.roleService.createRole(createRole);
   }
 
   @Get()
+  @UseGuards(JwtGuard)
   findAll(): Promise<ApiResponse> {
-    return this.appService.getAllRoles();
+    return this.roleService.findAll();
   }
 
   @Get(':id')
   findById(@Param('id') id: number): Promise<ApiResponse> {
-    return this.appService.getRoleById(id);
+    return this.roleService.findById(id);
   }
 
   @Put(':id')
   updateById(@Param('id') id: number, @Body() updateRole: UpdateRoleDto) {
-    return this.appService.updateRoleById(id, updateRole);
+    return this.roleService.updateById(id, updateRole);
   }
 
   @Delete(':id')
   deleteById(@Param('id') id: number) {
-    return this.appService.deleteRoleById(id);
+    return this.roleService.deleteById(id);
   }
 }

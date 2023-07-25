@@ -54,4 +54,25 @@ export class AuthRepository implements IAuthRepository {
       throw new Error('Failed message ' + err);
     }
   }
+
+  async findById(id: number): Promise<User> {
+    try {
+      const user = this.authRepository
+        .createQueryBuilder('user')
+        .where('user.user_id = :id', { id })
+        .select([
+          'user.user_id',
+          'user.firstname',
+          'user.lastname',
+          'user.email',
+          'user.password',
+        ])
+        .leftJoinAndSelect('user.role', 'role')
+        .getOne();
+
+      return user;
+    } catch (err) {
+      throw new Error('Failed message ' + err);
+    }
+  }
 }

@@ -1,17 +1,24 @@
 import { Module } from '@nestjs/common';
 
 import { AppController } from './app.controller';
-import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { Role } from '@myexperiment/domain';
+import { Role, User } from '@myexperiment/domain';
 import {
   RoleModule,
   RoleRepository,
   RoleService,
+  UserModule,
+  UserService,
 } from '@myexperiment/infrastructure';
+import { JwtStrategy } from '@myexperiment/auth-guard';
+import { JwtModule } from '@nestjs/jwt';
+import { PassportModule } from '@nestjs/passport';
 
 @Module({
   imports: [
+    RoleModule,
+    UserModule,
+    PassportModule,
     TypeOrmModule.forRoot({
       type: 'postgres',
       host: process.env.POSTGRES_HOST,
@@ -19,12 +26,15 @@ import {
       username: process.env.POSTGRES_USER,
       password: process.env.POSTGRES_PASSWORD,
       database: process.env.POSTGRES_DB,
-      entities: [Role],
+      entities: [User, Role],
       synchronize: true,
     }),
-    RoleModule,
+    JwtModule.register({
+      secret: 'SECRET_KEY',
+      signOptions: { expiresIn: '1h' },
+    }),
   ],
   controllers: [AppController],
-  providers: [AppService, RoleService],
+  providers: [JwtStrategy],
 })
 export class AppModule {}

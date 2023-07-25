@@ -4,7 +4,7 @@ import {
   UpdateRoleDto,
 } from '@myexperiment/domain';
 import { RoleService } from '@myexperiment/infrastructure';
-import { BadRequestException, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 
 @Injectable()
 export class AppService {
@@ -14,7 +14,7 @@ export class AppService {
     try {
       return await this.roleService.findAll();
     } catch (err) {
-      throw new BadRequestException(err);
+      return new ApiResponse('Failed', err, '400');
     }
   }
 
