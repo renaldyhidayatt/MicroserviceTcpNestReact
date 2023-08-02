@@ -30,12 +30,9 @@ export class SliderService implements ISliderService {
     }
   }
 
-  async createSlider(
-    dto: CreateSliderDto,
-    file: Express.Multer.File
-  ): Promise<ApiResponse> {
+  async createSlider(dto: CreateSliderDto): Promise<ApiResponse> {
     try {
-      const createSlider = this.sliderRepository.createSlider(dto, file.path);
+      const createSlider = this.sliderRepository.createSlider(dto);
 
       return new ApiResponse('Succes', createSlider, '200');
     } catch (err) {
@@ -43,17 +40,9 @@ export class SliderService implements ISliderService {
     }
   }
 
-  async updateSlider(
-    id: number,
-    dto: UpdateSliderDto,
-    file: Express.Multer.File
-  ): Promise<ApiResponse> {
+  async updateSlider(id: number, dto: UpdateSliderDto): Promise<ApiResponse> {
     try {
-      const updateSlider = await this.sliderRepository.updateSlider(
-        id,
-        dto,
-        file.path
-      );
+      const updateSlider = await this.sliderRepository.updateSlider(id, dto);
 
       return new ApiResponse('Succes', updateSlider, '200');
     } catch (err) {

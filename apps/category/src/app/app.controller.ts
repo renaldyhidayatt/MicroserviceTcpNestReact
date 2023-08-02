@@ -21,65 +21,42 @@ import {
 import { FileInterceptor } from '@nestjs/platform-express';
 import { ApiConsumes } from '@nestjs/swagger';
 import { CategoryService } from '@myexperiment/infrastructure';
+import { MessagePattern } from '@nestjs/microservices';
 
 @Controller()
 export class AppController {
   constructor(private readonly categoryService: CategoryService) {}
 
-  @Get()
+  @MessagePattern({ cmd: 'get_categories' })
   findAll(): Promise<ApiResponse> {
     return this.categoryService.findAll();
   }
 
-  @Get(':id')
-  findById(@Param('id') id: number): Promise<ApiResponse> {
+  @MessagePattern({ cmd: 'get_category' })
+  findById(id: number): Promise<ApiResponse> {
     return this.categoryService.findById(id);
   }
 
-  @Get('/slug/:slug')
-  findBySlug(@Param('slug') slug: string): Promise<ApiResponse> {
+  @MessagePattern({ cmd: 'get_slug_category' })
+  findBySlug(slug: string): Promise<ApiResponse> {
     return this.categoryService.findBySlug(slug);
   }
 
-  @Post('/create')
-  @ApiConsumes('multipart/form-data')
-  @UseInterceptors(FileInterceptor('file'))
-  create(
-    @Body() createCategory: CreateCategoryDto,
-    @UploadedFile(
-      new ParseFilePipe({
-        validators: [
-          new FileTypeValidator({ fileType: '.(png|jpeg|jpg)' }),
-          new MaxFileSizeValidator({ maxSize: 1024 * 1024 * 4 }),
-        ],
-      })
-    )
-    file: Express.Multer.File
-  ): Promise<ApiResponse> {
-    return this.categoryService.createCategory(createCategory, file);
+  @MessagePattern({ cmd: 'create_category' })
+  create(createCategory: CreateCategoryDto): Promise<ApiResponse> {
+    return this.categoryService.createCategory(createCategory);
   }
 
-  @Put('/:id')
-  @ApiConsumes('multipart/form-data')
-  @UseInterceptors(FileInterceptor('file'))
+  @MessagePattern({ cmd: 'update_category' })
   updateById(
-    @Param('id') id: number,
-    @Body() updateCategoryDto: UpdateCategoryDto,
-    @UploadedFile(
-      new ParseFilePipe({
-        validators: [
-          new FileTypeValidator({ fileType: '.(png|jpeg|jpg)' }),
-          new MaxFileSizeValidator({ maxSize: 1024 * 1024 * 4 }),
-        ],
-      })
-    )
-    file: Express.Multer.File
+    id: number,
+    updateCategoryDto: UpdateCategoryDto
   ): Promise<ApiResponse> {
-    return this.categoryService.updateCategory(id, updateCategoryDto, file);
+    return this.categoryService.updateCategory(id, updateCategoryDto);
   }
 
-  @Delete(':id')
-  deleteById(@Param('id') id: number) {
+  @MessagePattern({ cmd: 'delete_category' })
+  deleteById(id: number) {
     return this.categoryService.deleteCategory(id);
   }
 }

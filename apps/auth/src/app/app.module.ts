@@ -11,15 +11,10 @@ import {
   UserModule,
 } from '@myexperiment/infrastructure';
 import { Role, User } from '@myexperiment/domain';
-import { JwtStrategy } from '@myexperiment/auth-guard';
 
 @Module({
   imports: [
     PassportModule,
-    JwtModule.register({
-      secret: 'SECRET_KEY',
-      signOptions: { expiresIn: '1h' },
-    }),
     TypeOrmModule.forRoot({
       type: 'postgres',
       host: process.env.POSTGRES_HOST,
@@ -28,6 +23,7 @@ import { JwtStrategy } from '@myexperiment/auth-guard';
       password: process.env.POSTGRES_PASSWORD,
       database: process.env.POSTGRES_DB,
       entities: [User, Role],
+      autoLoadEntities: true,
       synchronize: true,
     }),
     AuthModule,
@@ -35,6 +31,6 @@ import { JwtStrategy } from '@myexperiment/auth-guard';
     UserModule,
   ],
   controllers: [AppController],
-  providers: [JwtStrategy],
+  providers: [],
 })
 export class AppModule {}

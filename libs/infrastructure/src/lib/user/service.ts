@@ -25,7 +25,7 @@ export class UserService implements IUserService {
       const user = await this.userRepository.findById(id);
       return new ApiResponse('Success', user, '200');
     } catch (err) {
-      throw new BadRequestException('User not found');
+      throw new BadRequestException('User not found' + err);
     }
   }
 
@@ -47,17 +47,9 @@ export class UserService implements IUserService {
     }
   }
 
-  async updateUserById(
-    id: number,
-    user: UpdateUserDto,
-    file: Express.Multer.File
-  ): Promise<ApiResponse> {
+  async updateUserById(id: number, user: UpdateUserDto): Promise<ApiResponse> {
     try {
-      const updatedUser = await this.userRepository.updateById(
-        id,
-        user,
-        file.path
-      );
+      const updatedUser = await this.userRepository.updateById(id, user);
       return new ApiResponse('Success', updatedUser, '200');
     } catch (err) {
       throw new BadRequestException('Failed to update user');

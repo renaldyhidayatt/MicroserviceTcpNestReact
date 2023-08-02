@@ -39,32 +39,18 @@ export class ProductService implements IProductService {
       throw new BadRequestException(err);
     }
   }
-  async createProduct(
-    dto: CreateProductDto,
-    file: Express.Multer.File
-  ): Promise<ApiResponse> {
+  async createProduct(dto: CreateProductDto): Promise<ApiResponse> {
     try {
-      const product = await this.productRepository.createProduct(
-        dto,
-        file.path
-      );
+      const product = await this.productRepository.createProduct(dto);
 
       return new ApiResponse('Succes', product, '200');
     } catch (err) {
       throw new BadRequestException(err);
     }
   }
-  async updateProduct(
-    id: number,
-    dto: UpdateProductDto,
-    file: Express.Multer.File
-  ): Promise<ApiResponse> {
+  async updateProduct(id: number, dto: UpdateProductDto): Promise<ApiResponse> {
     try {
-      const product = await this.productRepository.updateProduct(
-        id,
-        dto,
-        file.path
-      );
+      const product = await this.productRepository.updateProduct(id, dto);
       return new ApiResponse('Succes', product, '200');
     } catch (err) {
       throw new BadRequestException(err);

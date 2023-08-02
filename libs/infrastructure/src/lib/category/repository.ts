@@ -36,16 +36,13 @@ export class CategoryRepository implements ICategoryRepository {
     }
   }
 
-  async createCategory(
-    dto: CreateCategoryDto,
-    file: string
-  ): Promise<Category> {
+  async createCategory(dto: CreateCategoryDto): Promise<Category> {
     try {
       const slug = slugify(dto.name, { lower: true });
 
       const createCategory = this.categoryRepository.create({
         nama_kategori: dto.name,
-        image_category: file,
+        image_category: dto.file,
         slug_category: slug,
       });
 
@@ -57,11 +54,7 @@ export class CategoryRepository implements ICategoryRepository {
     }
   }
 
-  async updateCategory(
-    id: number,
-    dto: UpdateCategoryDto,
-    file: string
-  ): Promise<Category> {
+  async updateCategory(id: number, dto: UpdateCategoryDto): Promise<Category> {
     try {
       const findById = await this.findById(id);
 
@@ -75,7 +68,7 @@ export class CategoryRepository implements ICategoryRepository {
       const slug = slugify(dto.name, { lower: true });
 
       findById.nama_kategori = dto.name;
-      findById.image_category = file;
+      findById.image_category = dto.file;
       findById.slug_category = slug;
 
       const categoryUpdate = await this.categoryRepository.save(findById);

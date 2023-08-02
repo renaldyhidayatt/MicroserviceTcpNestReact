@@ -1,86 +1,48 @@
-import {
-  Body,
-  Controller,
-  Delete,
-  FileTypeValidator,
-  Get,
-  MaxFileSizeValidator,
-  Param,
-  ParseFilePipe,
-  Post,
-  Put,
-  UploadedFile,
-  UseInterceptors,
-} from '@nestjs/common';
+import { Controller } from '@nestjs/common';
 
 import { ProductService } from '@myexperiment/infrastructure';
 import { ApiResponse, CartDto, CreateProductDto } from '@myexperiment/domain';
-import { ApiConsumes } from '@nestjs/swagger';
-import { FileInterceptor } from '@nestjs/platform-express';
+import { MessagePattern } from '@nestjs/microservices';
 
 @Controller()
 export class AppController {
   constructor(private readonly productService: ProductService) {}
 
-  @Get()
+  @MessagePattern({ cmd: 'get_products' })
   findAll(): Promise<ApiResponse> {
     return this.productService.findAll();
   }
 
-  @Get(':id')
-  findById(@Param('id') id: number): Promise<ApiResponse> {
+  @MessagePattern({ cmd: 'get_product' })
+  findById(id: number): Promise<ApiResponse> {
     return this.productService.findById(id);
   }
 
-  @Get('/slug/:slug')
-  findBySlug(@Param('slug') slug: string): Promise<ApiResponse> {
+  @MessagePattern({ cmd: 'get_slug_product' })
+  findBySlug(slug: string): Promise<ApiResponse> {
     return this.productService.findBySlug(slug);
   }
 
-  @Post('/create')
-  @ApiConsumes('multipart/form-data')
-  @UseInterceptors(FileInterceptor('file'))
-  create(
-    @Body() createProduct: CreateProductDto,
-    @UploadedFile(
-      new ParseFilePipe({
-        validators: [
-          new FileTypeValidator({ fileType: '.(png|jpeg|jpg)' }),
-          new MaxFileSizeValidator({ maxSize: 1024 * 1024 * 4 }),
-        ],
-      })
-    )
-    file: Express.Multer.File
-  ) {
-    return this.productService.createProduct(createProduct, file);
+  @MessagePattern({ cmd: 'create_product' })
+  create(createProduct: CreateProductDto) {
+    return this.productService.createProduct(createProduct);
   }
 
-  @Put('/:id')
-  @ApiConsumes('multipart/form-data')
-  @UseInterceptors(FileInterceptor('file'))
+  @MessagePattern({ cmd: 'update_product' })
   updateById(
-    @Param('id') id: number,
-    @Body() updateProduct: CreateProductDto,
-    @UploadedFile(
-      new ParseFilePipe({
-        validators: [
-          new FileTypeValidator({ fileType: '.(png|jpeg|jpg)' }),
-          new MaxFileSizeValidator({ maxSize: 1024 * 1024 * 4 }),
-        ],
-      })
-    )
-    file: Express.Multer.File
+    id: number,
+    updateProduct: CreateProductDto
   ): Promise<ApiResponse> {
-    return this.productService.updateProduct(id, updateProduct, file);
+    return this.productService.updateProduct(id, updateProduct);
   }
 
-  @Post('/updatequantity')
-  updateQuantity(@Body('cart') cart: CartDto[]) {
+  @MessagePattern({ cmd: 'update_quantity_product' })
+  updateQuantity(cart: CartDto[]) {
     return this.productService.updateQuantity(cart);
   }
 
-  @Delete(':id')
-  deleteById(@Param('id') id: number) {
+  @MessagePattern({ cmd: 'delete_product' })
+  deleteById(id: number) {
     return this.productService.deleteProduct(id);
   }
 }

@@ -55,7 +55,7 @@ export class ProductRepository implements IProductRepository {
     }
   }
 
-  async createProduct(dto: CreateProductDto, file: string): Promise<Product> {
+  async createProduct(dto: CreateProductDto): Promise<Product> {
     try {
       const category = await this.categoryRepository.findById(dto.category_id);
       if (category == null) {
@@ -66,7 +66,7 @@ export class ProductRepository implements IProductRepository {
 
       const createproduct = this.productRepository.create({
         name: dto.name,
-        image_product: file,
+        image_product: dto.file,
         category: category,
         description: dto.description,
         price: dto.price,
@@ -137,11 +137,7 @@ export class ProductRepository implements IProductRepository {
     }
   }
 
-  async updateProduct(
-    id: number,
-    dto: UpdateProductDto,
-    file: string
-  ): Promise<Product> {
+  async updateProduct(id: number, dto: UpdateProductDto): Promise<Product> {
     try {
       const findById = await this.findById(id);
       if (findById == null) {
@@ -159,7 +155,7 @@ export class ProductRepository implements IProductRepository {
       }
 
       findById.name = dto.name;
-      findById.image_product = file;
+      findById.image_product = dto.file;
       findById.category = category;
       findById.description = dto.description;
       findById.price = dto.price;

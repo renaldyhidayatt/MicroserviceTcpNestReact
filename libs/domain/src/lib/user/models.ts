@@ -2,6 +2,7 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  JoinColumn,
   ManyToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
@@ -28,7 +29,8 @@ export class User {
   @Column({ default: 'default.jpg' }) // Add the default value for the image column
   image: string;
 
-  @ManyToOne(() => Role)
+  @ManyToOne(() => Role, { eager: true }) // Tambahkan relasi ManyToOne dengan Role
+  @JoinColumn({ name: 'role_id' }) // Kolom referensi untuk koneksi
   role: Role;
 
   @CreateDateColumn()

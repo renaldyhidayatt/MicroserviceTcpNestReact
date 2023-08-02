@@ -32,10 +32,7 @@ export class CategoryService implements ICategoryService {
     }
   }
 
-  async createCategory(
-    dto: CreateCategoryDto,
-    file: Express.Multer.File
-  ): Promise<ApiResponse> {
+  async createCategory(dto: CreateCategoryDto): Promise<ApiResponse> {
     try {
       const byname = await this.categoryRepository.findByName(dto.name);
 
@@ -43,10 +40,7 @@ export class CategoryService implements ICategoryService {
         throw new Error('Failed name already exists');
       }
 
-      const createCategory = this.categoryRepository.createCategory(
-        dto,
-        file.path
-      );
+      const createCategory = this.categoryRepository.createCategory(dto);
 
       return new ApiResponse('Success', createCategory, '200');
     } catch (err) {
@@ -56,11 +50,10 @@ export class CategoryService implements ICategoryService {
 
   async updateCategory(
     id: number,
-    dto: UpdateCategoryDto,
-    file: Express.Multer.File
+    dto: UpdateCategoryDto
   ): Promise<ApiResponse> {
     try {
-      const update = this.categoryRepository.updateCategory(id, dto, file.path);
+      const update = this.categoryRepository.updateCategory(id, dto);
 
       return new ApiResponse('Success', update, '200');
     } catch (err) {

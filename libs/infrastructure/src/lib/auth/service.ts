@@ -57,9 +57,7 @@ export class AuthService implements IAuthService {
 
       const authResponse = new AuthResponse(auth);
 
-      const token = this.generateToken(auth);
-
-      return new ApiResponse('Success', { authResponse, token }, '200');
+      return new ApiResponse('Success', authResponse, '200');
     } catch (err) {
       throw new BadRequestException(err);
     }

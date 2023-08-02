@@ -3,9 +3,7 @@ import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Slider } from '@myexperiment/domain';
-import { MulterModule } from '@nestjs/platform-express';
-import { diskStorage } from 'multer';
-import { extname } from 'path';
+
 import { SliderModule } from '@myexperiment/infrastructure';
 
 @Module({
@@ -21,18 +19,6 @@ import { SliderModule } from '@myexperiment/infrastructure';
       synchronize: true,
     }),
     SliderModule,
-    MulterModule.register({
-      storage: diskStorage({
-        destination: './public/upload/slider',
-        filename: (req, file, cb) => {
-          const randomName = Array(32)
-            .fill(null)
-            .map(() => Math.round(Math.random() * 16).toString(16))
-            .join('');
-          return cb(null, `${randomName}${extname(file.originalname)}`);
-        },
-      }),
-    }),
   ],
   controllers: [AppController],
   providers: [],

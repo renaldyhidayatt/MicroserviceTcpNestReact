@@ -106,11 +106,7 @@ export class UserRepository implements IUserRepository {
     }
   }
 
-  async updateById(
-    id: number,
-    user: UpdateUserDto,
-    file: string
-  ): Promise<User> {
+  async updateById(id: number, user: UpdateUserDto): Promise<User> {
     try {
       const userById = await this.findById(id);
       if (userById == null) {
@@ -138,7 +134,7 @@ export class UserRepository implements IUserRepository {
       userById.lastname = user.lastname;
       userById.role = role;
       userById.password = newPassword;
-      userById.image = file;
+      userById.image = user.file;
 
       const userUpdate = await this.userRepository.save(userById);
 

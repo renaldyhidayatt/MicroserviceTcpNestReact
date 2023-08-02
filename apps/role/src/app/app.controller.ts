@@ -1,51 +1,38 @@
-import {
-  Body,
-  Controller,
-  Delete,
-  Get,
-  Param,
-  Post,
-  Put,
-  UseGuards,
-} from '@nestjs/common';
-
-import { AppService } from './app.service';
+import { Body, Controller, Param } from '@nestjs/common';
 import {
   ApiResponse,
   CreateRoleDto,
   UpdateRoleDto,
 } from '@myexperiment/domain';
-import { JwtGuard } from '@myexperiment/auth-guard';
 import { RoleService } from '@myexperiment/infrastructure';
+import { MessagePattern } from '@nestjs/microservices';
 
 @Controller()
 export class AppController {
   constructor(private readonly roleService: RoleService) {}
 
-  @Post('/create')
-  @UseGuards(JwtGuard)
+  @MessagePattern({ cmd: 'create_role' })
   create(@Body() createRole: CreateRoleDto): Promise<ApiResponse> {
     return this.roleService.createRole(createRole);
   }
 
-  @Get()
-  @UseGuards(JwtGuard)
+  @MessagePattern({ cmd: 'get_roles' })
   findAll(): Promise<ApiResponse> {
     return this.roleService.findAll();
   }
 
-  @Get(':id')
-  findById(@Param('id') id: number): Promise<ApiResponse> {
+  @MessagePattern({ cmd: 'get_role' })
+  findById(id: number): Promise<ApiResponse> {
     return this.roleService.findById(id);
   }
 
-  @Put(':id')
-  updateById(@Param('id') id: number, @Body() updateRole: UpdateRoleDto) {
+  @MessagePattern({ cmd: 'update_role' })
+  updateById(id: number, updateRole: UpdateRoleDto) {
     return this.roleService.updateById(id, updateRole);
   }
 
-  @Delete(':id')
-  deleteById(@Param('id') id: number) {
+  @MessagePattern({ cmd: 'delete_role' })
+  deleteById(id: number) {
     return this.roleService.deleteById(id);
   }
 }

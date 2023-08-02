@@ -23,61 +23,34 @@ import {
 } from '@myexperiment/domain';
 import { JwtGuard } from '@myexperiment/auth-guard';
 import { SliderService } from '@myexperiment/infrastructure';
+import { MessagePattern } from '@nestjs/microservices';
 
 @Controller()
 export class AppController {
   constructor(private sliderService: SliderService) {}
 
-  @Get()
+  @MessagePattern({ cmd: 'get_sliders' })
   findAll(): Promise<ApiResponse> {
     return this.sliderService.findAll();
   }
 
-  @Get('/:id')
+  @MessagePattern({ cmd: 'get_slider' })
   findById(@Param('id') id: number): Promise<ApiResponse> {
     return this.sliderService.findById(id);
   }
 
-  @Post('/create')
-  @ApiConsumes('multipart/form-data')
-  @UseInterceptors(FileInterceptor('file'))
-  create(
-    @Body() createSlider: CreateSliderDto,
-    @UploadedFile(
-      new ParseFilePipe({
-        validators: [
-          new FileTypeValidator({ fileType: '.(png|jpeg|jpg)' }),
-          new MaxFileSizeValidator({ maxSize: 1024 * 1024 * 4 }),
-        ],
-      })
-    )
-    file: Express.Multer.File
-  ): Promise<ApiResponse> {
-    return this.sliderService.createSlider(createSlider, file);
+  @MessagePattern({ cmd: 'create_slider' })
+  create(dto: CreateSliderDto): Promise<ApiResponse> {
+    return this.sliderService.createSlider(dto);
   }
 
-  @Put('/:id')
-  @ApiConsumes('multipart/form-data')
-  @UseInterceptors(FileInterceptor('file'))
-  updateById(
-    @Param('id') id: number,
-    @Body() updateSlider: UpdateSliderDto,
-    @UploadedFile(
-      new ParseFilePipe({
-        validators: [
-          new FileTypeValidator({ fileType: '.(png|jpeg|jpg)' }),
-          new MaxFileSizeValidator({ maxSize: 1024 * 1024 * 4 }),
-        ],
-      })
-    )
-    file: Express.Multer.File
-  ): Promise<any> {
-    return this.sliderService.updateSlider(id, updateSlider, file);
+  @MessagePattern({ cmd: 'update_slider' })
+  updateById(id: number, dto: UpdateSliderDto): Promise<any> {
+    return this.sliderService.updateSlider(id, dto);
   }
 
-  @Delete(':id')
-  @UseGuards(JwtGuard)
-  deleteById(@Param('id') id: number) {
+  @MessagePattern({ cmd: 'delete_slider' })
+  deleteById(id: number) {
     return this.sliderService.deleteSlider(id);
   }
 }

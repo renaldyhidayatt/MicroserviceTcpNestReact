@@ -21,47 +21,34 @@ import {
 import { ApiConsumes } from '@nestjs/swagger';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { UserService } from '@myexperiment/infrastructure';
+import { MessagePattern } from '@nestjs/microservices';
 
 @Controller()
 export class AppController {
   constructor(private readonly userService: UserService) {}
 
-  @Post('/create')
-  async createUser(@Body() createUser: CreateUserDto): Promise<ApiResponse> {
+  @MessagePattern({ cmd: 'create_user' })
+  async createUser(createUser: CreateUserDto): Promise<ApiResponse> {
     return await this.userService.createUser(createUser);
   }
 
-  @Get()
+  @MessagePattern({ cmd: 'get_users' })
   async getAllUsers(): Promise<ApiResponse> {
     return await this.userService.getAllUsers();
   }
 
-  @Get(':id')
-  async getUserById(@Param('id') id: number): Promise<ApiResponse> {
+  @MessagePattern({ cmd: 'get_user' })
+  async getUserById(id: number): Promise<ApiResponse> {
     return await this.userService.getUserById(id);
   }
 
-  @Put(':id')
-  @ApiConsumes('multipart/form-data')
-  @UseInterceptors(FileInterceptor('file'))
-  updateById(
-    @Param('id') id: number,
-    @Body() updateUser: UpdateUserDto,
-    @UploadedFile(
-      new ParseFilePipe({
-        validators: [
-          new FileTypeValidator({ fileType: '.(png|jpeg|jpg)' }),
-          new MaxFileSizeValidator({ maxSize: 1024 * 1024 * 4 }),
-        ],
-      })
-    )
-    file: Express.Multer.File
-  ) {
-    return this.userService.updateUserById(id, updateUser, file);
+  @MessagePattern({ cmd: 'update_user' })
+  updateById(id: number, @Body() updateUser: UpdateUserDto) {
+    return this.userService.updateUserById(id, updateUser);
   }
 
-  @Delete(':id')
-  deleteById(@Param('id') id: number) {
+  @MessagePattern({ cmd: 'delete_user' })
+  deleteById(id: number) {
     return this.userService.deleteUserById(id);
   }
 }

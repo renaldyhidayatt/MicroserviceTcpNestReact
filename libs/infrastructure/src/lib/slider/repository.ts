@@ -33,11 +33,11 @@ export class SliderRepository implements ISliderRepository {
     }
   }
 
-  async createSlider(dto: CreateSliderDto, file: string): Promise<Slider> {
+  async createSlider(dto: CreateSliderDto): Promise<Slider> {
     try {
       const createSlider = this.sliderRepository.create({
         nama: dto.nama,
-        image: file,
+        image: dto.file,
       });
 
       const saved = await this.sliderRepository.save(createSlider);
@@ -48,11 +48,7 @@ export class SliderRepository implements ISliderRepository {
     }
   }
 
-  async updateSlider(
-    id: number,
-    dto: UpdateSliderDto,
-    file: string
-  ): Promise<Slider> {
+  async updateSlider(id: number, dto: UpdateSliderDto): Promise<Slider> {
     try {
       const findById = await this.findById(id);
 
@@ -65,7 +61,7 @@ export class SliderRepository implements ISliderRepository {
       }
 
       findById.nama = dto.nama;
-      findById.image = file;
+      findById.image = dto.file;
 
       const sliderUpdate = await this.sliderRepository.save(findById);
 

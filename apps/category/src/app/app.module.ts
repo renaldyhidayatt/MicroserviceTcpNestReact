@@ -4,9 +4,6 @@ import { AppController } from './app.controller';
 import { CategoryModule } from '@myexperiment/infrastructure';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Category, Product } from '@myexperiment/domain';
-import { MulterModule } from '@nestjs/platform-express';
-import { diskStorage } from 'multer';
-import { extname } from 'path';
 
 @Module({
   imports: [
@@ -21,18 +18,6 @@ import { extname } from 'path';
       entities: [Category, Product],
       synchronize: true,
       autoLoadEntities: true,
-    }),
-    MulterModule.register({
-      storage: diskStorage({
-        destination: './public/upload/category',
-        filename: (req, file, cb) => {
-          const randomName = Array(32)
-            .fill(null)
-            .map(() => Math.round(Math.random() * 16).toString(16))
-            .join('');
-          return cb(null, `${randomName}${extname(file.originalname)}`);
-        },
-      }),
     }),
   ],
   controllers: [AppController],
