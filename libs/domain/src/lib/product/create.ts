@@ -22,6 +22,10 @@ export class CreateProductDto {
   @IsNumber()
   countInStock: number;
 
+  @ApiProperty({ required: true })
+  @IsNumber()
+  weight: number;
+
   @ApiProperty({ required: true, type: 'string', format: 'binary' })
   file: any;
 }

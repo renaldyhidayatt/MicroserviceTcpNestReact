@@ -16,10 +16,12 @@ import {
 
 import { SlidersService } from './sliders.service';
 import { CreateSliderDto, UpdateSliderDto } from '@myexperiment/domain';
-import { ApiConsumes } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiConsumes, ApiTags } from '@nestjs/swagger';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { JwtGuard } from '@myexperiment/auth-guard';
+import { JwtGuard, RoleGuard } from '@myexperiment/auth-guard';
 
+@ApiTags('Slider')
+@ApiBearerAuth()
 @Controller('sliders')
 export class SlidersController {
   constructor(private sliderService: SlidersService) {}
@@ -29,12 +31,13 @@ export class SlidersController {
     return this.sliderService.findAll();
   }
 
+  @UseGuards(JwtGuard, RoleGuard)
   @Get('/:id')
   findById(@Param('id') id: number): Promise<any> {
     return this.sliderService.findById(id);
   }
 
-  @UseGuards(JwtGuard)
+  @UseGuards(JwtGuard, RoleGuard)
   @Post('/create')
   @ApiConsumes('multipart/form-data')
   @UseInterceptors(FileInterceptor('file'))
@@ -55,6 +58,7 @@ export class SlidersController {
     return this.sliderService.createSliders(createSlider);
   }
 
+  @UseGuards(JwtGuard, RoleGuard)
   @Put('/:id')
   @ApiConsumes('multipart/form-data')
   @UseInterceptors(FileInterceptor('file'))
@@ -75,7 +79,7 @@ export class SlidersController {
     return this.sliderService.updateSliders(id, updateSlider);
   }
 
-  @UseGuards(JwtGuard)
+  @UseGuards(JwtGuard, RoleGuard)
   @Delete(':id')
   deleteById(@Param('id') id: number) {
     return this.sliderService.deleteSlider(id);

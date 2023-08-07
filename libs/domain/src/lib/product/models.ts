@@ -32,6 +32,9 @@ export class Product {
   price: number;
 
   @Column()
+  weight: number;
+
+  @Column()
   countInStock: number;
 
   @Column({ default: () => 'CURRENT_TIMESTAMP' })

@@ -8,8 +8,10 @@ import {
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { LoginDto, RegisterDto } from '@myexperiment/domain';
-import { JwtGuard } from '@myexperiment/auth-guard';
+import { JwtGuard, RoleGuard } from '@myexperiment/auth-guard';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 
+@ApiTags('Auth')
 @Controller('auth')
 export class AuthController {
   constructor(private authService: AuthService) {}
@@ -25,8 +27,9 @@ export class AuthController {
     return token;
   }
 
+  @ApiBearerAuth()
+  @UseGuards(JwtGuard, RoleGuard)
   @Get('/me')
-  @UseGuards(JwtGuard)
   cekUser(@Request() req) {
     return req.user;
   }

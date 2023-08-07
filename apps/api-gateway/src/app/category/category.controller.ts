@@ -10,13 +10,22 @@ import {
   Post,
   Put,
   UploadedFile,
+  UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
 import { CategoryService } from './category.service';
 import { CreateCategoryDto, UpdateCategoryDto } from '@myexperiment/domain';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { ApiConsumes } from '@nestjs/swagger';
+import {
+  ApiBearerAuth,
+  ApiConsumes,
+  ApiOperation,
+  ApiTags,
+} from '@nestjs/swagger';
+import { JwtGuard, RoleDecorator, RoleGuard } from '@myexperiment/auth-guard';
 
+@ApiTags('Category')
+@ApiBearerAuth()
 @Controller('category')
 export class CategoryController {
   constructor(private readonly categoryService: CategoryService) {}
@@ -36,6 +45,8 @@ export class CategoryController {
     return this.categoryService.findBySlug(slug);
   }
 
+  @UseGuards(JwtGuard, RoleGuard)
+  @ApiOperation({ summary: 'create category' })
   @Post('/create')
   @ApiConsumes('multipart/form-data')
   @UseInterceptors(FileInterceptor('file'))
@@ -55,8 +66,10 @@ export class CategoryController {
     return this.categoryService.createCategory(createCategory);
   }
 
-  @Put('/:id')
+  @UseGuards(JwtGuard, RoleGuard)
+  @ApiOperation({ summary: 'update category' })
   @ApiConsumes('multipart/form-data')
+  @Put('/:id')
   @UseInterceptors(FileInterceptor('file'))
   updateById(
     @Param('id') id: number,

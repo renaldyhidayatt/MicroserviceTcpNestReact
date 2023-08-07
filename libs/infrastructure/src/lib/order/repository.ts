@@ -58,9 +58,14 @@ export class OrderRepository implements IOrderRepository {
       }
 
       const createOrder = this.orderRepository.create({
-        email: dto.email,
-        postal_code: dto.postalCode,
-        country_code: dto.countryCode,
+        nama: dto.nama,
+        phone: dto.phone,
+        provinsi: dto.provinsi,
+        kota: dto.kota,
+        alamat: dto.alamat,
+        kurir: dto.kurir,
+        shippingMethod: dto.shippingMethod,
+        shippingCost: dto.shippingCost,
         total_product: dto.totalProduct,
         total_price: dto.totalPrice,
         user: user,

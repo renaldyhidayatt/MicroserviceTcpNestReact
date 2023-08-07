@@ -5,7 +5,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { ClientProxyFactory, Transport } from '@nestjs/microservices';
 
 @Module({
-  imports: [ConfigModule.forRoot()],
+  imports: [],
   providers: [
     RoleService,
     {

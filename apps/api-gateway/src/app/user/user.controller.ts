@@ -10,13 +10,19 @@ import {
   Post,
   Put,
   UploadedFile,
+  UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto, UpdateUserDto } from '@myexperiment/domain';
-import { ApiConsumes } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiConsumes, ApiTags } from '@nestjs/swagger';
 import { FileInterceptor } from '@nestjs/platform-express';
+import { JwtGuard, RoleGuard } from '@myexperiment/auth-guard';
 
+@ApiTags('User')
+@ApiBearerAuth()
+@Controller('user')
+@UseGuards(JwtGuard, RoleGuard)
 @Controller('user')
 export class UserController {
   constructor(private userService: UserService) {}

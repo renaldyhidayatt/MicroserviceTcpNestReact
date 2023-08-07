@@ -1,0 +1,64 @@
+{
+  "name": "rajaongkir",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/rajaongkir/src",
+  "projectType": "application",
+  "targets": {
+    "build": {
+      "executor": "@nx/webpack:webpack",
+      "outputs": ["{options.outputPath}"],
+      "defaultConfiguration": "production",
+      "options": {
+        "target": "node",
+        "compiler": "tsc",
+        "outputPath": "dist/apps/rajaongkir",
+        "main": "apps/rajaongkir/src/main.ts",
+        "tsConfig": "apps/rajaongkir/tsconfig.app.json",
+        "assets": ["apps/rajaongkir/src/assets"],
+        "isolatedConfig": true,
+        "webpackConfig": "apps/rajaongkir/webpack.config.js"
+      },
+      "configurations": {
+        "development": {},
+        "production": {}
+      }
+    },
+    "serve": {
+      "executor": "@nx/js:node",
+      "defaultConfiguration": "development",
+      "options": {
+        "buildTarget": "rajaongkir:build"
+      },
+      "configurations": {
+        "development": {
+          "buildTarget": "rajaongkir:build:development"
+        },
+        "production": {
+          "buildTarget": "rajaongkir:build:production"
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nx/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["apps/rajaongkir/**/*.ts"]
+      }
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "options": {
+        "jestConfig": "apps/rajaongkir/jest.config.ts",
+        "passWithNoTests": true
+      },
+      "configurations": {
+        "ci": {
+          "ci": true,
+          "codeCoverage": true
+        }
+      }
+    }
+  },
+  "tags": []
+}

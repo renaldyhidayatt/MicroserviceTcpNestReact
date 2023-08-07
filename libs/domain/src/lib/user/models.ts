@@ -2,11 +2,12 @@ import {
   Column,
   CreateDateColumn,
   Entity,
-  JoinColumn,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
+import { Cart } from '../cart/models';
 import { Role } from '../role/models';
 
 @Entity()
@@ -26,12 +27,14 @@ export class User {
   @Column({ length: 70 })
   password: string;
 
-  @Column({ default: 'default.jpg' }) // Add the default value for the image column
+  @Column({ default: 'default.jpg' })
   image: string;
 
-  @ManyToOne(() => Role, { eager: true }) // Tambahkan relasi ManyToOne dengan Role
-  @JoinColumn({ name: 'role_id' }) // Kolom referensi untuk koneksi
+  @ManyToOne(() => Role)
   role: Role;
+
+  @OneToMany(() => Cart, (cart) => cart.user) // One user has many carts
+  cartItems: Cart[];
 
   @CreateDateColumn()
   created_at: Date;

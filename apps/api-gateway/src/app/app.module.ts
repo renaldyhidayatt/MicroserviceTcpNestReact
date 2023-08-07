@@ -14,9 +14,13 @@ import { CategoryModule } from './category/category.module';
 import { ProductModule } from './product/product.module';
 import { UserModule as MyUserModule } from './user/user.module';
 import { OrderModule } from './order/order.module';
+import { CartModule } from './cart/cart.module';
+import { MidtransModule } from './midtrans/midtrans.module';
+import { RajaongkirModule } from './rajaongkir/rajaongkir.module';
 
 @Module({
   imports: [
+    ConfigModule.forRoot(),
     TypeOrmModule.forRoot({
       type: 'postgres',
       host: process.env.POSTGRES_HOST,
@@ -35,6 +39,9 @@ import { OrderModule } from './order/order.module';
     MyUserModule,
     UserModule,
     OrderModule,
+    CartModule,
+    MidtransModule,
+    RajaongkirModule,
   ],
   controllers: [],
   providers: [],

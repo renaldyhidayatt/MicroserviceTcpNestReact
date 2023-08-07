@@ -14,16 +14,31 @@ export class Order {
   order_id: string;
 
   @Column({ length: 100 })
-  email: string;
+  nama: string;
 
   @Column({ length: 100 })
-  postal_code: string;
+  phone: string;
+
+  @Column({ length: 100 })
+  provinsi: string;
+
+  @Column({ length: 100 })
+  kota: string;
+
+  @Column({ length: 100 })
+  alamat: string;
+
+  @Column({ length: 100 })
+  kurir: string;
+
+  @Column({ length: 100 })
+  shippingMethod: string;
+
+  @Column()
+  shippingCost: number;
 
   @ManyToOne(() => User)
   user: User;
-
-  @Column({ length: 100 })
-  country_code: string;
 
   @Column('decimal', { precision: 10, scale: 2 })
   total_price: number;

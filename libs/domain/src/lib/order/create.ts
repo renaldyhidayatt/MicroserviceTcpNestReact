@@ -1,23 +1,43 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsEmail, IsNumber, IsString } from 'class-validator';
+import { IsNotEmpty, IsNumber, IsString } from 'class-validator';
 
 export class CreateOrderDto {
   @ApiProperty({ required: true })
+  @IsNotEmpty()
   @IsNumber()
   user_id: number;
 
   @ApiProperty({ required: true })
-  @IsEmail()
   @IsString()
-  email: string;
+  nama: string;
 
   @ApiProperty({ required: true })
   @IsString()
-  postalCode: string;
+  phone: string;
 
   @ApiProperty({ required: true })
   @IsString()
-  countryCode: string;
+  provinsi: string;
+
+  @ApiProperty({ required: true })
+  @IsString()
+  kota: string;
+
+  @ApiProperty({ required: true })
+  @IsString()
+  alamat: string;
+
+  @ApiProperty({ required: true })
+  @IsString()
+  kurir: string;
+
+  @ApiProperty({ required: true })
+  @IsString()
+  shippingMethod: string;
+
+  @ApiProperty({ required: true })
+  @IsNumber()
+  shippingCost: number;
 
   @ApiProperty({ required: true })
   @IsString()

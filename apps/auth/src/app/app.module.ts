@@ -10,7 +10,7 @@ import {
   RoleModule,
   UserModule,
 } from '@myexperiment/infrastructure';
-import { Role, User } from '@myexperiment/domain';
+import { Cart, Role, User } from '@myexperiment/domain';
 
 @Module({
   imports: [
@@ -22,7 +22,7 @@ import { Role, User } from '@myexperiment/domain';
       username: process.env.POSTGRES_USER,
       password: process.env.POSTGRES_PASSWORD,
       database: process.env.POSTGRES_DB,
-      entities: [User, Role],
+      entities: [User, Role, Cart],
       autoLoadEntities: true,
       synchronize: true,
     }),

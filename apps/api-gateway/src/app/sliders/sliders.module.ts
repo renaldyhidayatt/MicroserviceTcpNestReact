@@ -9,7 +9,6 @@ import { extname } from 'path';
 
 @Module({
   imports: [
-    ConfigModule.forRoot(),
     MulterModule.register({
       storage: diskStorage({
         destination: './public/upload/slider',

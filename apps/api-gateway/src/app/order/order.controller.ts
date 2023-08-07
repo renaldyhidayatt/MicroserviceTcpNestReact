@@ -1,7 +1,20 @@
-import { Body, Controller, Delete, Get, Param, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Post,
+  UseGuards,
+} from '@nestjs/common';
 import { OrderService } from './order.service';
 import { CreateOrderDto } from '@myexperiment/domain';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import { JwtGuard, RoleGuard } from '@myexperiment/auth-guard';
 
+@ApiTags('Order')
+@ApiBearerAuth()
+@UseGuards(JwtGuard, RoleGuard)
 @Controller('order')
 export class OrderController {
   constructor(private readonly orderService: OrderService) {}

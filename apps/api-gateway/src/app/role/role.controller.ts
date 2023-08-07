@@ -12,9 +12,15 @@ import {
   Param,
   Post,
   Put,
+  UseGuards,
 } from '@nestjs/common';
 import { RoleService } from './role.service';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import { JwtGuard, RoleGuard } from '@myexperiment/auth-guard';
 
+@ApiTags('Role')
+@ApiBearerAuth()
+@UseGuards(JwtGuard, RoleGuard)
 @Controller('role')
 export class RoleController {
   constructor(private roleService: RoleService) {}
