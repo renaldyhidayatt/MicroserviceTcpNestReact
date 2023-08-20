@@ -1,25 +1,10 @@
-import {
-  Body,
-  Controller,
-  Delete,
-  FileTypeValidator,
-  Get,
-  MaxFileSizeValidator,
-  Param,
-  ParseFilePipe,
-  Post,
-  Put,
-  UploadedFile,
-  UseInterceptors,
-} from '@nestjs/common';
+import { Controller } from '@nestjs/common';
 
 import {
   ApiResponse,
   CreateUserDto,
   UpdateUserDto,
 } from '@myexperiment/domain';
-import { ApiConsumes } from '@nestjs/swagger';
-import { FileInterceptor } from '@nestjs/platform-express';
 import { UserService } from '@myexperiment/infrastructure';
 import { MessagePattern } from '@nestjs/microservices';
 
@@ -43,7 +28,8 @@ export class AppController {
   }
 
   @MessagePattern({ cmd: 'update_user' })
-  updateById(id: number, @Body() updateUser: UpdateUserDto) {
+  updateById(data: { id: number; updateUser: UpdateUserDto }) {
+    const { id, updateUser } = data;
     return this.userService.updateUserById(id, updateUser);
   }
 

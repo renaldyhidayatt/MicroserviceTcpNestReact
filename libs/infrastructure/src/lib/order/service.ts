@@ -9,7 +9,7 @@ export class OrderService implements IOrderService {
 
   async deleteById(id: string): Promise<ApiResponse> {
     try {
-      const order = this.orderRepository.deleteById(id);
+      const order = await this.orderRepository.deleteById(id);
 
       return new ApiResponse('Success', order, '200');
     } catch (err) {
@@ -19,7 +19,7 @@ export class OrderService implements IOrderService {
 
   async create(dto: CreateOrderDto): Promise<ApiResponse> {
     try {
-      const order = this.orderRepository.create(dto);
+      const order = await this.orderRepository.create(dto);
 
       return new ApiResponse('Success', order, '200');
     } catch (err) {
@@ -29,7 +29,7 @@ export class OrderService implements IOrderService {
 
   async findAll(): Promise<ApiResponse> {
     try {
-      const order = this.orderRepository.findAll();
+      const order = await this.orderRepository.findAll();
 
       return new ApiResponse('Success', order, '200');
     } catch (err) {
@@ -38,7 +38,7 @@ export class OrderService implements IOrderService {
   }
   async findByIdUser(userId: number): Promise<ApiResponse> {
     try {
-      const order = this.orderRepository.findByIdUser(userId);
+      const order = await this.orderRepository.findByIdUser(userId);
 
       return new ApiResponse('Success', order, '200');
     } catch (err) {

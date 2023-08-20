@@ -72,6 +72,7 @@ export class ProductRepository implements IProductRepository {
         price: dto.price,
         countInStock: dto.countInStock,
         slug_product: slug,
+        weight: dto.weight
       });
 
       const saved = await this.productRepository.save(createproduct);

@@ -50,10 +50,13 @@ export class CategoryService implements ICategoryService {
 
   async updateCategory(
     id: number,
-    dto: UpdateCategoryDto
+    updateCategoryDto: UpdateCategoryDto
   ): Promise<ApiResponse> {
     try {
-      const update = this.categoryRepository.updateCategory(id, dto);
+      const update = this.categoryRepository.updateCategory(
+        id,
+        updateCategoryDto
+      );
 
       return new ApiResponse('Success', update, '200');
     } catch (err) {

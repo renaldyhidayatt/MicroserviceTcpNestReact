@@ -63,13 +63,14 @@ export class AuthService implements IAuthService {
     }
   }
 
-  private generateToken(user: any): string {
+  private generateToken(user: User): string {
     const dataToken = {
       id: user.user_id,
       firstname: user.firstname,
       lastname: user.lastname,
       email: user.email,
       role: user.role,
+      created_at: user.created_at,
     };
 
     const secret = 'SECRET_KEY';

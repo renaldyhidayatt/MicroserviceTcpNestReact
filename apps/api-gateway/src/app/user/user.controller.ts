@@ -58,8 +58,8 @@ export class UserController {
     )
     file: Express.Multer.File
   ) {
-    updateUser.file = file.path;
-    return this.userService.updateUser(id, updateUser);
+  
+    return this.userService.updateUser(id, updateUser, file);
   }
 
   @Delete(':id')

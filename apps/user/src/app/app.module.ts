@@ -3,7 +3,7 @@ import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { PassportModule } from '@nestjs/passport';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { Role, User } from '@myexperiment/domain';
+import { Cart, Category, Product, Role, User } from '@myexperiment/domain';
 import { JwtModule } from '@nestjs/jwt';
 import { JwtStrategy } from '@myexperiment/auth-guard';
 import { UserModule } from '@myexperiment/infrastructure';
@@ -21,7 +21,7 @@ import { extname } from 'path';
       username: process.env.POSTGRES_USER,
       password: process.env.POSTGRES_PASSWORD,
       database: process.env.POSTGRES_DB,
-      entities: [User, Role],
+      entities: [User, Role, Cart, Product, Category],
       synchronize: true,
     }),
     MulterModule.register({

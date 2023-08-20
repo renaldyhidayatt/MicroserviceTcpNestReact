@@ -1,11 +1,17 @@
 import { Module } from '@nestjs/common';
 import { ProductModule } from '../product';
-import { UserService } from '../user';
+import { UserModule } from '../user';
 import { CartRepository } from './repository';
 import { CartService } from './service';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { Cart, Role, User } from '@myexperiment/domain';
 
 @Module({
-  imports: [ProductModule, UserService],
+  imports: [
+    TypeOrmModule.forFeature([User, Role, Cart]),
+    ProductModule,
+    UserModule,
+  ],
   providers: [CartRepository, CartService],
   exports: [CartRepository, CartService],
 })

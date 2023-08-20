@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { RajaOngkirAPI } from './utils/raja_ongkirt';
+import { OngkosDto } from '@myexperiment/domain';
 
 @Injectable()
 export class AppService {
@@ -35,14 +36,14 @@ export class AppService {
     }
   }
 
-  async getCost(asal: string, tujuan: string, berat: number, courier: string) {
+  async getCost(ongkosDto: OngkosDto) {
     try {
       const rajaOngkirInstance = this.rajaOngkir.getInstance();
       const response = await rajaOngkirInstance.post('/cost', {
-        origin: asal,
-        destination: tujuan,
-        weight: berat,
-        courier: courier,
+        origin: ongkosDto.asal,
+        destination: ongkosDto.tujuan,
+        weight: ongkosDto.berat,
+        courier: ongkosDto.kurir,
       });
       return response.data;
     } catch (error) {

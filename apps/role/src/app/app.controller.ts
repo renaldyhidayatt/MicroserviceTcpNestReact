@@ -1,4 +1,4 @@
-import { Body, Controller, Param } from '@nestjs/common';
+import { Body, Controller, Get, Param } from '@nestjs/common';
 import {
   ApiResponse,
   CreateRoleDto,
@@ -10,6 +10,11 @@ import { MessagePattern } from '@nestjs/microservices';
 @Controller()
 export class AppController {
   constructor(private readonly roleService: RoleService) {}
+
+  @Get('/')
+  hello(): string {
+    return 'hello';
+  }
 
   @MessagePattern({ cmd: 'create_role' })
   create(@Body() createRole: CreateRoleDto): Promise<ApiResponse> {

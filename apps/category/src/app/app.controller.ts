@@ -1,25 +1,11 @@
-import {
-  Body,
-  Controller,
-  Delete,
-  FileTypeValidator,
-  Get,
-  MaxFileSizeValidator,
-  Param,
-  ParseFilePipe,
-  Post,
-  Put,
-  UploadedFile,
-  UseInterceptors,
-} from '@nestjs/common';
+import { Controller } from '@nestjs/common';
 
 import {
   ApiResponse,
   CreateCategoryDto,
   UpdateCategoryDto,
 } from '@myexperiment/domain';
-import { FileInterceptor } from '@nestjs/platform-express';
-import { ApiConsumes } from '@nestjs/swagger';
+
 import { CategoryService } from '@myexperiment/infrastructure';
 import { MessagePattern } from '@nestjs/microservices';
 
@@ -48,10 +34,11 @@ export class AppController {
   }
 
   @MessagePattern({ cmd: 'update_category' })
-  updateById(
-    id: number,
-    updateCategoryDto: UpdateCategoryDto
-  ): Promise<ApiResponse> {
+  async updateById(data: {
+    id: number;
+    updateCategoryDto: UpdateCategoryDto;
+  }): Promise<ApiResponse> {
+    const { id, updateCategoryDto } = data;
     return this.categoryService.updateCategory(id, updateCategoryDto);
   }
 

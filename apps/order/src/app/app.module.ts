@@ -2,7 +2,14 @@ import { Module } from '@nestjs/common';
 
 import { AppController } from './app.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { Order, User } from '@myexperiment/domain';
+import {
+  Cart,
+  Category,
+  Order,
+  Product,
+  Role,
+  User,
+} from '@myexperiment/domain';
 import { OrderModule, UserModule } from '@myexperiment/infrastructure';
 
 @Module({
@@ -14,7 +21,7 @@ import { OrderModule, UserModule } from '@myexperiment/infrastructure';
       username: process.env.POSTGRES_USER,
       password: process.env.POSTGRES_PASSWORD,
       database: process.env.POSTGRES_DB,
-      entities: [User, Order],
+      entities: [User, Order, Role, Cart, Product, Category],
       synchronize: true,
     }),
     OrderModule,

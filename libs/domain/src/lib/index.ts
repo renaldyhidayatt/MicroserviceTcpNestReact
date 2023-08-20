@@ -8,3 +8,4 @@ export * from './apiresponse';
 export * from './slider';
 export * from './midtrans';
 export * from './cart';
+export * from './rajaongkir';

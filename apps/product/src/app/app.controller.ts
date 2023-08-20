@@ -1,7 +1,12 @@
 import { Controller } from '@nestjs/common';
 
 import { ProductService } from '@myexperiment/infrastructure';
-import { ApiResponse, CartDto, CreateProductDto } from '@myexperiment/domain';
+import {
+  ApiResponse,
+  CartDto,
+  CreateProductDto,
+  UpdateProductDto,
+} from '@myexperiment/domain';
 import { MessagePattern } from '@nestjs/microservices';
 
 @Controller()
@@ -29,10 +34,14 @@ export class AppController {
   }
 
   @MessagePattern({ cmd: 'update_product' })
-  updateById(
-    id: number,
-    updateProduct: CreateProductDto
-  ): Promise<ApiResponse> {
+  updateById(data: {
+    id: number;
+    updateProduct: UpdateProductDto;
+  }): Promise<ApiResponse> {
+    const { id, updateProduct } = data;
+
+    console.log('Dto Category_id', updateProduct.category_id);
+
     return this.productService.updateProduct(id, updateProduct);
   }
 

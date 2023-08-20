@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 
 import { AppController } from './app.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { Role, User } from '@myexperiment/domain';
+import { Cart, Category, Product, Role, User } from '@myexperiment/domain';
 import {
   RoleModule,
   RoleRepository,
@@ -26,7 +26,7 @@ import { PassportModule } from '@nestjs/passport';
       username: process.env.POSTGRES_USER,
       password: process.env.POSTGRES_PASSWORD,
       database: process.env.POSTGRES_DB,
-      entities: [User, Role],
+      entities: [User, Role, Cart, Product, Category],
       synchronize: true,
     }),
     JwtModule.register({

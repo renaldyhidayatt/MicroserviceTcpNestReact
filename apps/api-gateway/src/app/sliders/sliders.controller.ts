@@ -53,9 +53,7 @@ export class SlidersController {
     )
     file: Express.Multer.File
   ): Promise<any> {
-    createSlider.file = file.path;
-
-    return this.sliderService.createSliders(createSlider);
+    return this.sliderService.createSliders(createSlider, file);
   }
 
   @UseGuards(JwtGuard, RoleGuard)
@@ -76,7 +74,7 @@ export class SlidersController {
     file: Express.Multer.File
   ): Promise<any> {
     updateSlider.file = file.path;
-    return this.sliderService.updateSliders(id, updateSlider);
+    return this.sliderService.updateSliders(id, updateSlider, file);
   }
 
   @UseGuards(JwtGuard, RoleGuard)

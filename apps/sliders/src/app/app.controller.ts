@@ -45,8 +45,13 @@ export class AppController {
   }
 
   @MessagePattern({ cmd: 'update_slider' })
-  updateById(id: number, dto: UpdateSliderDto): Promise<any> {
-    return this.sliderService.updateSlider(id, dto);
+  updateById(data: {
+    id: number;
+    updateSlider: UpdateSliderDto;
+  }): Promise<any> {
+    const { id, updateSlider } = data;
+
+    return this.sliderService.updateSlider(id, updateSlider);
   }
 
   @MessagePattern({ cmd: 'delete_slider' })

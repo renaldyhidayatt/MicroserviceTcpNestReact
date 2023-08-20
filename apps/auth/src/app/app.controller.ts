@@ -16,6 +16,6 @@ export class AppController {
   @MessagePattern({ cmd: 'login_auth' })
   async login(login: LoginDto) {
     const token = await this.authService.login(login);
-    return { token };
+    return token;
   }
 }

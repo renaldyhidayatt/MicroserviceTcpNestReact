@@ -17,7 +17,6 @@ import { ProductService } from './product.service';
 import {
   CartDto,
   CreateProductDto,
-  Role,
   UpdateProductDto,
 } from '@myexperiment/domain';
 import { FileInterceptor } from '@nestjs/platform-express';
@@ -70,8 +69,7 @@ export class ProductController {
     )
     file: Express.Multer.File
   ) {
-    createProduct.file = file.path;
-    return this.productService.createProduct(createProduct);
+    return this.productService.createProduct(createProduct, file);
   }
 
   @UseGuards(JwtGuard, RoleGuard)
@@ -92,8 +90,7 @@ export class ProductController {
     )
     file: Express.Multer.File
   ): Promise<any> {
-    updateProduct.file = file.path;
-    return this.productService.updateProduct(id, updateProduct);
+    return this.productService.updateProduct(id, updateProduct, file);
   }
 
   @UseGuards(JwtGuard, RoleGuard)

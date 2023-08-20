@@ -1,11 +1,11 @@
 import { Module } from '@nestjs/common';
 import { RajaongkirService } from './rajaongkir.service';
 import { RajaongkirController } from './rajaongkir.controller';
-import { ConfigService } from '@nestjs/config';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 import { ClientProxyFactory, Transport } from '@nestjs/microservices';
 
 @Module({
-  imports: [],
+  imports: [ConfigModule],
   providers: [
     RajaongkirService,
     {

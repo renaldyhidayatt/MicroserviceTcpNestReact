@@ -62,8 +62,7 @@ export class CategoryController {
     )
     file: Express.Multer.File
   ): Promise<any> {
-    createCategory.file = file.path;
-    return this.categoryService.createCategory(createCategory);
+    return this.categoryService.createCategory(createCategory, file);
   }
 
   @UseGuards(JwtGuard, RoleGuard)
@@ -84,8 +83,7 @@ export class CategoryController {
     )
     file: Express.Multer.File
   ): Promise<any> {
-    updateCategoryDto.file = file.path;
-    return this.categoryService.updateCategory(id, updateCategoryDto);
+    return this.categoryService.updateCategory(id, updateCategoryDto, file);
   }
 
   @Delete(':id')

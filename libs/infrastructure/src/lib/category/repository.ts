@@ -62,9 +62,6 @@ export class CategoryRepository implements ICategoryRepository {
         throw new Error('Failed not found category');
       }
 
-      if (findById.image_category) {
-        fs.unlinkSync(findById.image_category);
-      }
       const slug = slugify(dto.name, { lower: true });
 
       findById.nama_kategori = dto.name;

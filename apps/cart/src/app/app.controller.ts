@@ -19,6 +19,7 @@ export class AppController {
 
   @MessagePattern({ cmd: 'delete_cart' })
   async deleteCart(id: number): Promise<ApiResponse> {
+    console.log(id);
     return this.cartService.delete(id);
   }
 

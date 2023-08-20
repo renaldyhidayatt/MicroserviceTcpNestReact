@@ -1,28 +1,13 @@
 import { Module } from '@nestjs/common';
 import { CategoryService } from './category.service';
 import { CategoryController } from './category.controller';
-import { MulterModule } from '@nestjs/platform-express';
-import { diskStorage } from 'multer';
-import { extname } from 'path';
+
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { ClientProxyFactory, Transport } from '@nestjs/microservices';
+import { CloudinaryModule } from '@myexperiment/infrastructure';
 
 @Module({
-  imports: [
-    ConfigModule.forRoot(),
-    MulterModule.register({
-      storage: diskStorage({
-        destination: './public/upload/category',
-        filename: (req, file, cb) => {
-          const randomName = Array(32)
-            .fill(null)
-            .map(() => Math.round(Math.random() * 16).toString(16))
-            .join('');
-          return cb(null, `${randomName}${extname(file.originalname)}`);
-        },
-      }),
-    }),
-  ],
+  imports: [CloudinaryModule, ConfigModule.forRoot()],
   providers: [
     CategoryService,
     {

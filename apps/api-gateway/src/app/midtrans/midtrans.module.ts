@@ -1,14 +1,15 @@
 import { Module } from '@nestjs/common';
 import { MidtransService } from './midtrans.service';
 import { MidtransController } from './midtrans.controller';
-import { ConfigService } from '@nestjs/config';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 import { ClientProxyFactory, Transport } from '@nestjs/microservices';
 
 @Module({
+  imports: [ConfigModule],
   providers: [
     MidtransService,
     {
-      provide: 'MIDTRANS_SERVICe',
+      provide: 'MIDTRANS_SERVICE',
       inject: [ConfigService],
       useFactory: (configService: ConfigService) => {
         return ClientProxyFactory.create({

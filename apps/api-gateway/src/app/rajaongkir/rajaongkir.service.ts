@@ -1,3 +1,4 @@
+import { OngkosDto } from '@myexperiment/domain';
 import { Inject, Injectable } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
 
@@ -13,10 +14,7 @@ export class RajaongkirService {
     return this.rajaClient.send({ cmd: 'city' }, provId);
   }
 
-  async getOngkos(asal: string, tujuan: string, berat: number, kurir: string) {
-    return this.rajaClient.send(
-      { cmd: 'cost' },
-      { asal, tujuan, berat, kurir }
-    );
+  async getOngkos(ongkosDto: OngkosDto) {
+    return this.rajaClient.send({ cmd: 'cost' }, ongkosDto);
   }
 }

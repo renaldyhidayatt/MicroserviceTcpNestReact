@@ -44,7 +44,6 @@ export class UserRepository implements IUserRepository {
           'user.firstname',
           'user.lastname',
           'user.email',
-          'user.password',
         ])
         .leftJoinAndSelect('user.role', 'role')
         .getOne();

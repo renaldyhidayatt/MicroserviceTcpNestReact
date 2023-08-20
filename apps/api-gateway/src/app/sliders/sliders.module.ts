@@ -3,25 +3,11 @@ import { SlidersService } from './sliders.service';
 import { SlidersController } from './sliders.controller';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { ClientProxyFactory, Transport } from '@nestjs/microservices';
-import { MulterModule } from '@nestjs/platform-express';
-import { diskStorage } from 'multer';
-import { extname } from 'path';
+
+import { CloudinaryModule } from '@myexperiment/infrastructure';
 
 @Module({
-  imports: [
-    MulterModule.register({
-      storage: diskStorage({
-        destination: './public/upload/slider',
-        filename: (req, file, cb) => {
-          const randomName = Array(32)
-            .fill(null)
-            .map(() => Math.round(Math.random() * 16).toString(16))
-            .join('');
-          return cb(null, `${randomName}${extname(file.originalname)}`);
-        },
-      }),
-    }),
-  ],
+  imports: [ConfigModule, CloudinaryModule],
   providers: [
     SlidersService,
     {
