@@ -4,30 +4,29 @@ Ini project experiment
 
 Backend
 
-Typescript
-Framework Nest.js
-Postgresql
-Payment Gateway: Midtrans
-Raja Ongkir
-Tcp
+- Typescript
+- Framework Nest.js
+- Postgresql
+- Payment Gateway: Midtrans
+- Raja Ongkir
 
 Frontend:
 
-Javascript
-Framework Reactjs
-Redux toolkit
-Framework Css: Tailwind dan Flowbite
+- Javascript
+- Framework Reactjs
+- Redux toolkit
+- Framework Css: Tailwind dan Flowbite
 
 Frontend Admin:
 
-Javascript
-Tauri
-Rust
-Framework Reactjs
-Redux toolkit
-Framework css: Bootstrap dan Mazer Dashboard
+- Javascript
+- Tauri
+- Rust
+- Framework Reactjs
+- Redux toolkit
+- Framework css: Bootstrap dan Mazer Dashboard
 
-Demo
+## Demo
 
 <br />
 
